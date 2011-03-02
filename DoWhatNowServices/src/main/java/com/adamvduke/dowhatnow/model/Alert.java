@@ -15,35 +15,24 @@ public class Alert {
 
 	public Alert( String owner, String title, String detail, long date ) {
 
-		this( owner );
+		this.owner = owner;
 		this.title = title;
 		this.detail = detail;
 		this.date = date;
 	}
 
-	public Alert( Map <String, String> parameterMap, String owner ) {
+	public Alert( String owner, Map <String, String> parameterMap ) {
 
-		this( owner );
-		if ( parameterMap == null ) {
-			throw new IllegalArgumentException( "parameterMap can not be null" );
-		}
+		this.owner = owner;
 		this.title = parameterMap.get( "title" );
 		this.detail = parameterMap.get( "detail" );
 		this.date = Long.valueOf( parameterMap.get( "date" ) );
 	}
 
-	private Alert( String owner ) {
-
-		if ( owner == null ) {
-			throw new IllegalArgumentException( "owner can not be null" );
-		}
-		this.owner = owner;
-	}
-
 	@PrimaryKey
 	@Persistent( valueStrategy = IdGeneratorStrategy.IDENTITY )
 	@Expose
-	private Key key;
+	private Key alert_id;
 
 	@Persistent
 	@Expose
@@ -103,11 +92,11 @@ public class Alert {
 
 	public Key getKey() {
 
-		return key;
+		return alert_id;
 	}
 
 	public void setKey( Key key ) {
 
-		this.key = key;
+		this.alert_id = key;
 	}
 }

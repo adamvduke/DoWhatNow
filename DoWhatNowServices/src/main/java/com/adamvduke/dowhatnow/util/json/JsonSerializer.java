@@ -10,6 +10,7 @@ import com.google.gson.GsonBuilder;
 
 public class JsonSerializer {
 
+	// TODO: MOVE ALL OF THIS STUFF INTO GUICE
 	public static String toJson( Alert alert ) {
 
 		String json = configuredGson().toJson( alert );

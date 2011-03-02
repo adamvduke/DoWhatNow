@@ -2,7 +2,7 @@
 <web-app version='2.5' xmlns='http://java.sun.com/xml/ns/javaee'>
   <filter>
     <filter-name>OAuthFilter</filter-name>
-    <filter-class>com.adamvduke.dowhatnow.services.OAuthFilter</filter-class>
+    <filter-class>com.adamvduke.dowhatnow.servlet.filter.OAuthFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>OAuthFilter</filter-name>
@@ -18,7 +18,7 @@
   </security-constraint>
   <servlet>
     <servlet-name>ScheduleAlert</servlet-name>
-    <servlet-class>com.adamvduke.dowhatnow.services.alert.ScheduleAlert</servlet-class>
+    <servlet-class>com.adamvduke.dowhatnow.servlet.alert.ScheduleAlertServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ScheduleAlert</servlet-name>
@@ -34,7 +34,7 @@
   </security-constraint>
   <servlet>
     <servlet-name>ShowAlerts</servlet-name>
-    <servlet-class>com.adamvduke.dowhatnow.services.alert.ShowAlerts</servlet-class>
+    <servlet-class>com.adamvduke.dowhatnow.servlet.alert.ShowAlertsServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ShowAlerts</servlet-name>
