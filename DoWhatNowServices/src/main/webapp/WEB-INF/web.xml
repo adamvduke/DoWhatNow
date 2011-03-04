@@ -1,11 +1,11 @@
 <!-- Generated from app.yaml. Do not edit. -->
 <web-app version='2.5' xmlns='http://java.sun.com/xml/ns/javaee'>
   <filter>
-    <filter-name>OAuthFilter</filter-name>
-    <filter-class>com.adamvduke.dowhatnow.servlet.filter.OAuthFilter</filter-class>
+    <filter-name>GuiceFilter</filter-name>
+    <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
   </filter>
   <filter-mapping>
-    <filter-name>OAuthFilter</filter-name>
+    <filter-name>GuiceFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
   <security-constraint>
@@ -16,39 +16,10 @@
       <transport-guarantee>CONFIDENTIAL</transport-guarantee>
     </user-data-constraint>
   </security-constraint>
-  <servlet>
-    <servlet-name>ScheduleAlert</servlet-name>
-    <servlet-class>com.adamvduke.dowhatnow.servlet.alert.ScheduleAlertServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ScheduleAlert</servlet-name>
-    <url-pattern>/alerts/schedule.json</url-pattern>
-  </servlet-mapping>
-  <security-constraint>
-    <web-resource-collection>
-      <url-pattern>/alerts/schedule.json</url-pattern>
-    </web-resource-collection>
-    <user-data-constraint>
-      <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-    </user-data-constraint>
-  </security-constraint>
-  <servlet>
-    <servlet-name>ShowAlerts</servlet-name>
-    <servlet-class>com.adamvduke.dowhatnow.servlet.alert.ShowAlertsServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ShowAlerts</servlet-name>
-    <url-pattern>/alerts/show.json</url-pattern>
-  </servlet-mapping>
-  <security-constraint>
-    <web-resource-collection>
-      <url-pattern>/alerts/show.json</url-pattern>
-    </web-resource-collection>
-    <user-data-constraint>
-      <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-    </user-data-constraint>
-  </security-constraint>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
+  <listener>
+    <listener-class>com.adamvduke.dowhatnow.config.guice.DoWhatNowGuiceConfig</listener-class>
+  </listener>
 </web-app>
