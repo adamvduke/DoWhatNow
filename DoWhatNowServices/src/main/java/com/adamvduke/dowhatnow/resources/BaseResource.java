@@ -1,14 +1,19 @@
-package com.adamvduke.dowhatnow.rest;
+package com.adamvduke.dowhatnow.resources;
 
 import com.google.appengine.api.oauth.OAuthRequestException;
 import com.google.appengine.api.oauth.OAuthService;
 import com.google.appengine.api.users.User;
 import com.google.inject.Inject;
 
-public class BaseResource {
+public abstract class BaseResource {
+
+	OAuthService oauthService;
 
 	@Inject
-	OAuthService oauthService;
+	protected BaseResource( OAuthService oauthService ) {
+
+		this.oauthService = oauthService;
+	}
 
 	/**
 	 * Convenience method to get the current user

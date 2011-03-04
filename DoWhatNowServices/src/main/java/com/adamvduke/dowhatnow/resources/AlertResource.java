@@ -1,4 +1,4 @@
-package com.adamvduke.dowhatnow.rest;
+package com.adamvduke.dowhatnow.resources;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,16 +15,23 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.adamvduke.dowhatnow.model.Alert;
-import com.adamvduke.dowhatnow.rest.exception.BadRequestException;
+import com.adamvduke.dowhatnow.resources.exception.BadRequestException;
 import com.adamvduke.dowhatnow.util.json.JsonSerializer;
+import com.google.appengine.api.oauth.OAuthService;
 import com.google.appengine.api.users.User;
 import com.google.inject.Inject;
 
 @Path( "/alerts/*" )
 public class AlertResource extends BaseResource {
 
+	private final PersistenceManagerFactory persistenceManagerFactory;
+
 	@Inject
-	private PersistenceManagerFactory persistenceManagerFactory;
+	public AlertResource( OAuthService oauthService, PersistenceManagerFactory persistenceManagerFactory ) {
+
+		super( oauthService );
+		this.persistenceManagerFactory = persistenceManagerFactory;
+	}
 
 	@GET
 	@Path( "upcoming.json" )
@@ -43,6 +50,7 @@ public class AlertResource extends BaseResource {
 			return JsonSerializer.toJson( alerts ) + "\n";
 		}
 		catch ( RuntimeException e ) {
+
 			throw new BadRequestException( "/alerts/upcoming.json" );
 		}
 		finally {

@@ -33,7 +33,8 @@ public class JsonSerializer {
 
 		GsonBuilder builder = new GsonBuilder();
 		builder.excludeFieldsWithoutExposeAnnotation();
-		builder.setPrettyPrinting();
+		// TODO: set up a system property to turn pretty printing on and off
+		// builder.setPrettyPrinting();
 		registerTypeAdapters( builder );
 		Gson gson = builder.create();
 		return gson;

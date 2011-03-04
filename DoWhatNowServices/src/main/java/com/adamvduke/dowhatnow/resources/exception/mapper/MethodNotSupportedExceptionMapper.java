@@ -1,14 +1,14 @@
-package com.adamvduke.dowhatnow.rest.exception.mapper;
+package com.adamvduke.dowhatnow.resources.exception.mapper;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import com.adamvduke.dowhatnow.rest.exception.MethodNotSupportedException;
+import com.adamvduke.dowhatnow.resources.exception.MethodNotSupportedException;
 
 @Provider
-public class MethodNotSupportedExceptionMapper implements ExceptionMapper <com.adamvduke.dowhatnow.rest.exception.MethodNotSupportedException> {
+public class MethodNotSupportedExceptionMapper implements ExceptionMapper <com.adamvduke.dowhatnow.resources.exception.MethodNotSupportedException> {
 
 	@Override
 	public Response toResponse( MethodNotSupportedException exception ) {

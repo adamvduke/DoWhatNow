@@ -1,14 +1,14 @@
-package com.adamvduke.dowhatnow.rest.exception.mapper;
+package com.adamvduke.dowhatnow.resources.exception.mapper;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import com.adamvduke.dowhatnow.rest.exception.BadRequestException;
+import com.adamvduke.dowhatnow.resources.exception.BadRequestException;
 
 @Provider
-public class BadRequestExceptionMapper implements ExceptionMapper <com.adamvduke.dowhatnow.rest.exception.BadRequestException> {
+public class BadRequestExceptionMapper implements ExceptionMapper <com.adamvduke.dowhatnow.resources.exception.BadRequestException> {
 
 	@Override
 	public Response toResponse( BadRequestException exception ) {

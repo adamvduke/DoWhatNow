@@ -1,4 +1,4 @@
-package com.adamvduke.dowhatnow.rest.exception;
+package com.adamvduke.dowhatnow.resources.exception;
 
 import javax.ws.rs.WebApplicationException;
 

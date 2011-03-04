@@ -5,9 +5,9 @@ import java.util.Set;
 
 import javax.ws.rs.core.Application;
 
-import com.adamvduke.dowhatnow.rest.AlertResource;
-import com.adamvduke.dowhatnow.rest.exception.mapper.BadRequestExceptionMapper;
-import com.adamvduke.dowhatnow.rest.exception.mapper.MethodNotSupportedExceptionMapper;
+import com.adamvduke.dowhatnow.resources.AlertResource;
+import com.adamvduke.dowhatnow.resources.exception.mapper.BadRequestExceptionMapper;
+import com.adamvduke.dowhatnow.resources.exception.mapper.MethodNotSupportedExceptionMapper;
 
 /**
  * The main configuration point for Jersey
