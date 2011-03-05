@@ -22,7 +22,7 @@ public class BadRequestException extends WebApplicationException {
 	@Override
 	public String getMessage() {
 
-		String message = "{\"request\":\"" + requestPath + "\",\"error\":\"Bad Request\"}\n";
+		String message = "{\"request\":\"" + requestPath + "\",\"error\":\"Bad Request\"}";
 		return message;
 	}
 }

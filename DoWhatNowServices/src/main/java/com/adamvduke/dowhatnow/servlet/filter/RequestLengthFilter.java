@@ -52,6 +52,6 @@ public class RequestLengthFilter implements Filter {
 
 		response.setStatus( HttpServletResponse.SC_REQUEST_ENTITY_TOO_LARGE );
 		String requestPath = request.getServletPath();
-		response.getWriter().write( "{\"request\":\"" + requestPath + "\",\"error\":\"Request body too large. Maximum request length is " + maxRequestLength + " bytes\"}\n" );
+		response.getWriter().write( "{\"request\":\"" + requestPath + "\",\"error\":\"Request body too large. Maximum request length is " + maxRequestLength + " bytes\"}" );
 	}
 }

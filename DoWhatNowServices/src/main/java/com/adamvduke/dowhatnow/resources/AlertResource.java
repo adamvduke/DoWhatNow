@@ -47,7 +47,7 @@ public class AlertResource extends BaseResource {
 			alertsQuery.setFilter( "owner == ownerParam" );
 			alertsQuery.declareParameters( "String ownerParam" );
 			List <Alert> alerts = (List <Alert>) alertsQuery.execute( user.getUserId() );
-			return JsonSerializer.toJson( alerts ) + "\n";
+			return JsonSerializer.toJson( alerts );
 		}
 		catch ( RuntimeException e ) {
 
@@ -79,7 +79,7 @@ public class AlertResource extends BaseResource {
 
 			// persist the alert
 			pm.makePersistent( alert );
-			String json = "{\"alert\":" + JsonSerializer.toJson( alert ) + "}\n";
+			String json = JsonSerializer.toJson( alert );
 			return json;
 		}
 		catch ( Exception e ) {

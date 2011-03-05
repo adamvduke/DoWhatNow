@@ -71,6 +71,6 @@ public class OAuthFilter implements Filter {
 		response.setStatus( HttpServletResponse.SC_UNAUTHORIZED );
 		response.setHeader( "WWW-Authenticate", "OAuth realm=\"http://adamcodez.appspot.com\"" );
 		String requestPath = request.getServletPath();
-		response.getWriter().write( "{\"request\":\"" + requestPath + "\",\"error\":\"Not Authorized\"}\n" );
+		response.getWriter().write( "{\"request\":\"" + requestPath + "\",\"error\":\"Not Authorized\"}" );
 	}
 }

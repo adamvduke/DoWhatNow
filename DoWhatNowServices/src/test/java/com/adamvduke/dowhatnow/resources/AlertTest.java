@@ -71,7 +71,7 @@ public class AlertTest {
 		AlertResource alertResource = new AlertResource( oauthService, persistenceManagerFactory );
 
 		// then
-		Assert.assertEquals( "[]\n", alertResource.getUpcoming() );
+		Assert.assertEquals( "[]", alertResource.getUpcoming() );
 	}
 
 	@Test
@@ -93,7 +93,7 @@ public class AlertTest {
 		AlertResource alertResource = new AlertResource( oauthService, persistenceManagerFactory );
 
 		// then
-		Assert.assertEquals( "[{\"owner\":\"example@test.com\",\"title\":\"Test Title\",\"detail\":\"Some details\",\"date\":1234}]\n", alertResource.getUpcoming() );
+		Assert.assertEquals( "[{\"owner\":\"example@test.com\",\"title\":\"Test Title\",\"detail\":\"Some details\",\"date\":1234}]", alertResource.getUpcoming() );
 	}
 
 	@Test
@@ -118,6 +118,6 @@ public class AlertTest {
 
 		// then
 		Assert.assertEquals( "[{\"owner\":\"example@test.com\",\"title\":\"Test Title 1\",\"detail\":\"Some details 1\",\"date\":1234},"
-				+ "{\"owner\":\"example@test.com\",\"title\":\"Test Title 2\",\"detail\":\"Some details 2\",\"date\":12345}]\n", alertResource.getUpcoming() );
+				+ "{\"owner\":\"example@test.com\",\"title\":\"Test Title 2\",\"detail\":\"Some details 2\",\"date\":12345}]", alertResource.getUpcoming() );
 	}
 }

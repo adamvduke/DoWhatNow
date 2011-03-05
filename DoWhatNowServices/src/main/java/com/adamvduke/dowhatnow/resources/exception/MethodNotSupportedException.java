@@ -24,7 +24,7 @@ public class MethodNotSupportedException extends WebApplicationException {
 	@Override
 	public String getMessage() {
 
-		String message = "{\"request\":\"" + requestPath + "\",\"error\":\"Unsupported method: " + method + "\"}\n";
+		String message = "{\"request\":\"" + requestPath + "\",\"error\":\"Unsupported method: " + method + "\"}";
 		return message;
 	}
 }
