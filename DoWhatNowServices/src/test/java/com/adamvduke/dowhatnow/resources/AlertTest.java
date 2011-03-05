@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.adamvduke.dowhatnow.model.Alert;
+import com.adamvduke.dowhatnow.util.json.DoWhatNowJson;
 import com.google.appengine.api.oauth.OAuthRequestException;
 import com.google.appengine.api.oauth.OAuthService;
 import com.google.appengine.api.users.User;
@@ -34,6 +35,7 @@ public class AlertTest {
 	Query alertsQuery;
 	PersistenceManager persistenceManager;
 	PersistenceManagerFactory persistenceManagerFactory;
+	DoWhatNowJson json;
 
 	@Before
 	public void setUp() {
@@ -48,6 +50,7 @@ public class AlertTest {
 		persistenceManager = mock( PersistenceManager.class );
 		persistenceManagerFactory = mock( PersistenceManagerFactory.class );
 		userService = UserServiceFactory.getUserService();
+		json = new DoWhatNowJson();
 	}
 
 	@After
@@ -68,7 +71,7 @@ public class AlertTest {
 		given( persistenceManagerFactory.getPersistenceManager() ).willReturn( persistenceManager );
 
 		// when
-		AlertResource alertResource = new AlertResource( oauthService, persistenceManagerFactory );
+		AlertResource alertResource = new AlertResource( oauthService, persistenceManagerFactory, json );
 
 		// then
 		Assert.assertEquals( "[]", alertResource.getUpcoming() );
@@ -90,7 +93,7 @@ public class AlertTest {
 		given( persistenceManagerFactory.getPersistenceManager() ).willReturn( persistenceManager );
 
 		// when
-		AlertResource alertResource = new AlertResource( oauthService, persistenceManagerFactory );
+		AlertResource alertResource = new AlertResource( oauthService, persistenceManagerFactory, json );
 
 		// then
 		Assert.assertEquals( "[{\"owner\":\"example@test.com\",\"title\":\"Test Title\",\"detail\":\"Some details\",\"date\":1234}]", alertResource.getUpcoming() );
@@ -114,7 +117,7 @@ public class AlertTest {
 		given( persistenceManagerFactory.getPersistenceManager() ).willReturn( persistenceManager );
 
 		// when
-		AlertResource alertResource = new AlertResource( oauthService, persistenceManagerFactory );
+		AlertResource alertResource = new AlertResource( oauthService, persistenceManagerFactory, json );
 
 		// then
 		Assert.assertEquals( "[{\"owner\":\"example@test.com\",\"title\":\"Test Title 1\",\"detail\":\"Some details 1\",\"date\":1234},"

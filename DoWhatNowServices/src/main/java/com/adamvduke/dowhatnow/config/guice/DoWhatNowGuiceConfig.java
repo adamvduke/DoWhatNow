@@ -8,6 +8,7 @@ import javax.jdo.PersistenceManagerFactory;
 
 import com.adamvduke.dowhatnow.servlet.filter.OAuthFilter;
 import com.adamvduke.dowhatnow.servlet.filter.RequestLengthFilter;
+import com.adamvduke.dowhatnow.util.json.DoWhatNowJson;
 import com.google.appengine.api.oauth.OAuthService;
 import com.google.appengine.api.oauth.OAuthServiceFactory;
 import com.google.inject.AbstractModule;
@@ -71,6 +72,8 @@ public class DoWhatNowGuiceConfig extends GuiceServletContextListener {
 				// make guice aware of the OAuthUserService
 				OAuthService oauthService = OAuthServiceFactory.getOAuthService();
 				binder.bind( OAuthService.class ).toInstance( oauthService );
+
+				binder.bind( DoWhatNowJson.class );
 			}
 		},
 
