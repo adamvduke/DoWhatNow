@@ -6,8 +6,6 @@ import java.util.Map;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManagerFactory;
 
-import com.adamvduke.dowhatnow.servlet.filter.OAuthFilter;
-import com.adamvduke.dowhatnow.servlet.filter.RequestLengthFilter;
 import com.adamvduke.dowhatnow.util.json.DoWhatNowJson;
 import com.google.appengine.api.oauth.OAuthService;
 import com.google.appengine.api.oauth.OAuthServiceFactory;
@@ -34,11 +32,20 @@ public class DoWhatNowGuiceConfig extends GuiceServletContextListener {
 	@Override
 	protected Injector getInjector() {
 
+		StringBuilder filtersBuilder = new StringBuilder();
+		filtersBuilder.append( "com.adamvduke.dowhatnow.servlet.filter.RequestLengthFilter" ).append( ";" );
+		filtersBuilder.append( "com.adamvduke.dowhatnow.servlet.filter.OAuthFilter" );
+
 		// setting Jersey up inside Guice's injector
 		// indicating to jersey what resources it should be interested in
 		// takes place in "MainJerseyApplication"
 		final Map <String, String> params = new HashMap <String, String>();
 		params.put( "javax.ws.rs.Application", "com.adamvduke.dowhatnow.config.jersey.MainJerseyApplication" );
+
+		// add the container request filters, they are executed in the order they are declared
+		params.put( "com.sun.jersey.spi.container.ContainerRequestFilters", filtersBuilder.toString() );
+
+		// disable WADL publishing, possibly a problem when running in app engine
 		params.put( "com.sun.jersey.config.feature.DisableWADL", "true" );
 
 		return Guice.createInjector(
@@ -48,10 +55,6 @@ public class DoWhatNowGuiceConfig extends GuiceServletContextListener {
 			// anonymous JerseyServeltModule sets jersey's GuiceContainer up
 			@Override
 			public void configureServlets() {
-
-				// set up the filters to be used
-				filter( "/*" ).through( RequestLengthFilter.class );
-				filter( "/*" ).through( OAuthFilter.class );
 
 				// serve all uri's with the GuiceContainer(Jersey's GuiceContainer)
 				// pass the params Map to let the magic happen
