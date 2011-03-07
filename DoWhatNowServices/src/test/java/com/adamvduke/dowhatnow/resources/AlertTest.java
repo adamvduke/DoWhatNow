@@ -9,6 +9,7 @@ import java.util.List;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
+import javax.ws.rs.core.UriInfo;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -35,6 +36,7 @@ public class AlertTest {
 	Query alertsQuery;
 	PersistenceManager persistenceManager;
 	PersistenceManagerFactory persistenceManagerFactory;
+	UriInfo uriInfo;
 	DoWhatNowJson json;
 
 	@Before
@@ -49,6 +51,7 @@ public class AlertTest {
 		alertsQuery = mock( Query.class );
 		persistenceManager = mock( PersistenceManager.class );
 		persistenceManagerFactory = mock( PersistenceManagerFactory.class );
+		uriInfo = mock( UriInfo.class );
 		userService = UserServiceFactory.getUserService();
 		json = new DoWhatNowJson();
 	}
@@ -69,12 +72,13 @@ public class AlertTest {
 		given( alertsQuery.execute( user.getUserId() ) ).willReturn( new ArrayList <Alert>() );
 		given( persistenceManager.newQuery( Alert.class ) ).willReturn( alertsQuery );
 		given( persistenceManagerFactory.getPersistenceManager() ).willReturn( persistenceManager );
+		given( uriInfo.getPath() ).willReturn( "alerts/upcoming.json" );
 
 		// when
 		AlertResource alertResource = new AlertResource( oauthService, persistenceManagerFactory, json );
 
 		// then
-		Assert.assertEquals( "[]", alertResource.getUpcoming() );
+		Assert.assertEquals( "[]", alertResource.getUpcoming( uriInfo ) );
 	}
 
 	@Test
@@ -91,12 +95,13 @@ public class AlertTest {
 		given( alertsQuery.execute( user.getUserId() ) ).willReturn( alerts );
 		given( persistenceManager.newQuery( Alert.class ) ).willReturn( alertsQuery );
 		given( persistenceManagerFactory.getPersistenceManager() ).willReturn( persistenceManager );
+		given( uriInfo.getPath() ).willReturn( "alerts/upcoming.json" );
 
 		// when
 		AlertResource alertResource = new AlertResource( oauthService, persistenceManagerFactory, json );
 
 		// then
-		Assert.assertEquals( "[{\"owner\":\"example@test.com\",\"title\":\"Test Title\",\"detail\":\"Some details\",\"date\":1234}]", alertResource.getUpcoming() );
+		Assert.assertEquals( "[{\"owner\":\"example@test.com\",\"title\":\"Test Title\",\"detail\":\"Some details\",\"date\":1234}]", alertResource.getUpcoming( uriInfo ) );
 	}
 
 	@Test
@@ -115,12 +120,13 @@ public class AlertTest {
 		given( alertsQuery.execute( user.getUserId() ) ).willReturn( alerts );
 		given( persistenceManager.newQuery( Alert.class ) ).willReturn( alertsQuery );
 		given( persistenceManagerFactory.getPersistenceManager() ).willReturn( persistenceManager );
+		given( uriInfo.getPath() ).willReturn( "alerts/upcoming.json" );
 
 		// when
 		AlertResource alertResource = new AlertResource( oauthService, persistenceManagerFactory, json );
 
 		// then
 		Assert.assertEquals( "[{\"owner\":\"example@test.com\",\"title\":\"Test Title 1\",\"detail\":\"Some details 1\",\"date\":1234},"
-				+ "{\"owner\":\"example@test.com\",\"title\":\"Test Title 2\",\"detail\":\"Some details 2\",\"date\":12345}]", alertResource.getUpcoming() );
+				+ "{\"owner\":\"example@test.com\",\"title\":\"Test Title 2\",\"detail\":\"Some details 2\",\"date\":12345}]", alertResource.getUpcoming( uriInfo ) );
 	}
 }

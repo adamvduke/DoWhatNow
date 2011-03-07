@@ -12,7 +12,9 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.UriInfo;
 
 import com.adamvduke.dowhatnow.model.Alert;
 import com.adamvduke.dowhatnow.resources.exception.BadRequestException;
@@ -39,7 +41,7 @@ public class AlertResource extends BaseResource {
 	@Path( "upcoming.json" )
 	@Produces( "application/json" )
 	@SuppressWarnings( "unchecked" )
-	public String getUpcoming() {
+	public String getUpcoming( @Context UriInfo uriInfo ) {
 
 		PersistenceManager pm = persistenceManagerFactory.getPersistenceManager();
 		try {
@@ -53,7 +55,7 @@ public class AlertResource extends BaseResource {
 		}
 		catch ( RuntimeException e ) {
 
-			throw new BadRequestException( "/alerts/upcoming.json" );
+			throw new BadRequestException( uriInfo.getPath() );
 		}
 		finally {
 			pm.close();
@@ -64,7 +66,7 @@ public class AlertResource extends BaseResource {
 	@Path( "schedule.json" )
 	@Produces( "application/json" )
 	@Consumes( "application/x-www-form-urlencoded" )
-	public String scheduleAlert( MultivaluedMap <String, String> formParams ) {
+	public String scheduleAlert( @Context UriInfo uriInfo, MultivaluedMap <String, String> formParams ) {
 
 		PersistenceManager pm = persistenceManagerFactory.getPersistenceManager();
 		try {
@@ -86,7 +88,7 @@ public class AlertResource extends BaseResource {
 		}
 		catch ( Exception e ) {
 
-			throw new BadRequestException( "/alerts/schedule.json" );
+			throw new BadRequestException( uriInfo.getPath() );
 		}
 		finally {
 			pm.close();
