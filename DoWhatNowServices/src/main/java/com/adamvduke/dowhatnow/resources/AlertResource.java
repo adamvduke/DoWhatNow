@@ -18,23 +18,23 @@ import javax.ws.rs.core.UriInfo;
 
 import com.adamvduke.dowhatnow.model.Alert;
 import com.adamvduke.dowhatnow.resources.exception.BadRequestException;
-import com.adamvduke.dowhatnow.util.json.DoWhatNowJson;
 import com.google.appengine.api.oauth.OAuthService;
 import com.google.appengine.api.users.User;
+import com.google.gson.Gson;
 import com.google.inject.Inject;
 
 @Path( "/alerts/*" )
 public class AlertResource extends BaseResource {
 
 	private final PersistenceManagerFactory persistenceManagerFactory;
-	private final DoWhatNowJson jsonSerializer;
+	private final Gson gson;
 
 	@Inject
-	public AlertResource( OAuthService oauthService, PersistenceManagerFactory persistenceManagerFactory, DoWhatNowJson jsonSerializer ) {
+	public AlertResource( OAuthService oauthService, PersistenceManagerFactory persistenceManagerFactory, Gson gson ) {
 
 		super( oauthService );
 		this.persistenceManagerFactory = persistenceManagerFactory;
-		this.jsonSerializer = jsonSerializer;
+		this.gson = gson;
 	}
 
 	@GET
@@ -51,7 +51,7 @@ public class AlertResource extends BaseResource {
 			alertsQuery.setFilter( "owner == ownerParam" );
 			alertsQuery.declareParameters( "String ownerParam" );
 			List <Alert> alerts = (List <Alert>) alertsQuery.execute( user.getUserId() );
-			return jsonSerializer.toJson( alerts );
+			return gson.toJson( alerts );
 		}
 		catch ( RuntimeException e ) {
 
@@ -83,7 +83,7 @@ public class AlertResource extends BaseResource {
 
 			// persist the alert
 			pm.makePersistent( alert );
-			String json = jsonSerializer.toJson( alert );
+			String json = gson.toJson( alert );
 			return json;
 		}
 		catch ( Exception e ) {

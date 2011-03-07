@@ -17,7 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.adamvduke.dowhatnow.model.Alert;
-import com.adamvduke.dowhatnow.util.json.DoWhatNowJson;
+import com.adamvduke.dowhatnow.util.json.DoWhatNowGsonBuilder;
 import com.google.appengine.api.oauth.OAuthRequestException;
 import com.google.appengine.api.oauth.OAuthService;
 import com.google.appengine.api.users.User;
@@ -25,6 +25,7 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
+import com.google.gson.Gson;
 
 @SuppressWarnings( "all" )
 public class AlertTest {
@@ -37,7 +38,7 @@ public class AlertTest {
 	PersistenceManager persistenceManager;
 	PersistenceManagerFactory persistenceManagerFactory;
 	UriInfo uriInfo;
-	DoWhatNowJson json;
+	Gson json;
 
 	@Before
 	public void setUp() {
@@ -53,7 +54,7 @@ public class AlertTest {
 		persistenceManagerFactory = mock( PersistenceManagerFactory.class );
 		uriInfo = mock( UriInfo.class );
 		userService = UserServiceFactory.getUserService();
-		json = new DoWhatNowJson();
+		json = new DoWhatNowGsonBuilder().get().create();
 	}
 
 	@After

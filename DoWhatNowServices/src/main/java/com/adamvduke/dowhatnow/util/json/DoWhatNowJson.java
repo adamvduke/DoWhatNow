@@ -1,40 +1,23 @@
 package com.adamvduke.dowhatnow.util.json;
 
-import java.util.List;
-
-import com.adamvduke.dowhatnow.model.Alert;
-import com.adamvduke.dowhatnow.util.json.adapters.DatastoreKeyAdapter;
-import com.google.appengine.api.datastore.Key;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.inject.Singleton;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-@Singleton
-public class DoWhatNowJson {
+public class DoWhatNowJson implements Provider <Gson> {
 
-	public String toJson( Alert alert ) {
+	private final GsonBuilder builder;
 
-		String json = configuredGson().toJson( alert );
-		return json;
+	@Inject
+	public DoWhatNowJson( GsonBuilder builder ) {
+
+		this.builder = builder;
 	}
 
-	public String toJson( List <Alert> alertList ) {
+	@Override
+	public Gson get() {
 
-		String json = configuredGson().toJson( alertList );
-		return json;
-	}
-
-	private Gson configuredGson() {
-
-		GsonBuilder builder = new GsonBuilder();
-		builder.excludeFieldsWithoutExposeAnnotation();
-		registerTypeAdapters( builder );
-		Gson gson = builder.create();
-		return gson;
-	}
-
-	private void registerTypeAdapters( GsonBuilder builder ) {
-
-		builder.registerTypeAdapter( Key.class, new DatastoreKeyAdapter() );
+		return builder.create();
 	}
 }
