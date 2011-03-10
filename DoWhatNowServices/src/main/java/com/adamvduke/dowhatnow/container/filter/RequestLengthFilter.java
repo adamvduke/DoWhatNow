@@ -1,4 +1,4 @@
-package com.adamvduke.dowhatnow.servlet.filter;
+package com.adamvduke.dowhatnow.container.filter;
 
 import com.adamvduke.dowhatnow.resources.exception.RequestEntityTooLargeException;
 import com.google.inject.Singleton;

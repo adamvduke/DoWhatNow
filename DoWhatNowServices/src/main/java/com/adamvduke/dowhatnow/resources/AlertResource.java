@@ -18,6 +18,7 @@ import javax.ws.rs.core.UriInfo;
 
 import com.adamvduke.dowhatnow.model.Alert;
 import com.adamvduke.dowhatnow.resources.exception.BadRequestException;
+import com.google.appengine.api.oauth.OAuthRequestException;
 import com.google.appengine.api.oauth.OAuthService;
 import com.google.appengine.api.users.User;
 import com.google.gson.Gson;
@@ -41,7 +42,7 @@ public class AlertResource extends BaseResource {
 	@Path( "upcoming.json" )
 	@Produces( "application/json" )
 	@SuppressWarnings( "unchecked" )
-	public String getUpcoming( @Context UriInfo uriInfo ) {
+	public String getUpcoming( @Context UriInfo uriInfo ) throws OAuthRequestException {
 
 		PersistenceManager pm = persistenceManagerFactory.getPersistenceManager();
 		try {
@@ -66,7 +67,7 @@ public class AlertResource extends BaseResource {
 	@Path( "schedule.json" )
 	@Produces( "application/json" )
 	@Consumes( "application/x-www-form-urlencoded" )
-	public String scheduleAlert( @Context UriInfo uriInfo, MultivaluedMap <String, String> formParams ) {
+	public String scheduleAlert( @Context UriInfo uriInfo, MultivaluedMap <String, String> formParams ) throws OAuthRequestException {
 
 		PersistenceManager pm = persistenceManagerFactory.getPersistenceManager();
 		try {

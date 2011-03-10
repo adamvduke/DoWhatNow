@@ -18,7 +18,7 @@ public abstract class BaseResource {
 	/**
 	 * Convenience method to get the current user
 	 */
-	protected User getUser() {
+	protected User getUser() throws OAuthRequestException {
 
 		User oUser;
 		try {
@@ -28,7 +28,7 @@ public abstract class BaseResource {
 
 			// This should never happen assuming the
 			// OAuthFilter is in place.
-			return null;
+			throw e;
 		}
 		return oUser;
 	}

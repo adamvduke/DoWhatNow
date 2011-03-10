@@ -18,8 +18,8 @@ public class DWNJerseyModule extends JerseyServletModule {
 
 		// configure the list of ContainerFilters
 		StringBuilder filtersBuilder = new StringBuilder();
-		filtersBuilder.append( "com.adamvduke.dowhatnow.servlet.filter.RequestLengthFilter" ).append( ";" );
-		filtersBuilder.append( "com.adamvduke.dowhatnow.servlet.filter.OAuthFilter" );
+		filtersBuilder.append( "com.adamvduke.dowhatnow.container.filter.RequestLengthFilter" ).append( ";" );
+		filtersBuilder.append( "com.adamvduke.dowhatnow.container.filter.OAuthFilter" );
 
 		// setting Jersey up inside Guice's injector
 		// indicating to jersey what resources it should be interested in takes place in
