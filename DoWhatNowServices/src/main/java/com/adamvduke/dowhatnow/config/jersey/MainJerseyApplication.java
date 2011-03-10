@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.ws.rs.core.Application;
 
 import com.adamvduke.dowhatnow.resources.AlertResource;
+import com.adamvduke.dowhatnow.resources.exception.mapper.CatchAllExceptionMapper;
 import com.adamvduke.dowhatnow.resources.exception.mapper.BadRequestExceptionMapper;
 import com.adamvduke.dowhatnow.resources.exception.mapper.MethodNotSupportedExceptionMapper;
 import com.adamvduke.dowhatnow.resources.exception.mapper.RequestEntityTooLargeExceptionMapper;
@@ -35,6 +36,7 @@ public class MainJerseyApplication extends Application {
 		s.add( MethodNotSupportedExceptionMapper.class );
 		s.add( RequestEntityTooLargeExceptionMapper.class );
 		s.add( UnauthorizedRequestExceptionMapper.class );
+		s.add( CatchAllExceptionMapper.class );
 		return s;
 	}
 }

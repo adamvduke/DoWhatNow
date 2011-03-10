@@ -1,28 +1,31 @@
 package com.adamvduke.dowhatnow.resources.exception;
 
-import javax.ws.rs.WebApplicationException;
-
 @SuppressWarnings( "serial" )
-public class BadRequestException extends WebApplicationException {
+public class BadRequestException extends DoWhatNowExceptionBase {
 
-	private final String requestPath;
+	private static final String defaultMessage = "Bad Request";
 
 	/**
 	 * Create a HTTP 400 (Bad Request) exception.
 	 * 
-	 * @param message
-	 *            the String that is the entity of the 400 response.
+	 * @param requestPath
+	 *            the path for the incoming request that caused the exception
 	 */
 	public BadRequestException( String requestPath ) {
 
-		super();
-		this.requestPath = requestPath;
+		super( requestPath, defaultMessage );
 	}
 
-	@Override
-	public String getMessage() {
+	/**
+	 * Create an HTTP 400 (Bad Request) exception
+	 * 
+	 * @param requestPath
+	 *            the path for the incoming request that caused the exception
+	 * @param message
+	 *            the message that should be returned as the error
+	 */
+	public BadRequestException( String requestPath, String message ) {
 
-		String message = "{\"request\":\"" + requestPath + "\",\"error\":\"Bad Request\"}";
-		return message;
+		super( requestPath, message );
 	}
 }

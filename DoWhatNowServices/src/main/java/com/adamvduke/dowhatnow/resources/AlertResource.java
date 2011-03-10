@@ -55,7 +55,7 @@ public class AlertResource extends BaseResource {
 		}
 		catch ( RuntimeException e ) {
 
-			throw new BadRequestException( uriInfo.getPath() );
+			throw new BadRequestException( uriInfo.getPath(), e.getMessage() );
 		}
 		finally {
 			pm.close();
@@ -86,9 +86,15 @@ public class AlertResource extends BaseResource {
 			String json = gson.toJson( alert );
 			return json;
 		}
-		catch ( Exception e ) {
+		catch ( NumberFormatException numberFormatException ) {
 
-			throw new BadRequestException( uriInfo.getPath() );
+			String message = numberFormatException.getClass().getSimpleName() + " " + numberFormatException.getMessage();
+			message = message.replace( "\"", "" );
+			throw new BadRequestException( uriInfo.getPath(), message );
+		}
+		catch ( RuntimeException e ) {
+
+			throw new BadRequestException( uriInfo.getPath(), e.getMessage() );
 		}
 		finally {
 			pm.close();

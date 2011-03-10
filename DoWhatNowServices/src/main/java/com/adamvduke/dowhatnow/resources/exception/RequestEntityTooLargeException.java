@@ -1,30 +1,18 @@
 package com.adamvduke.dowhatnow.resources.exception;
 
-import javax.ws.rs.WebApplicationException;
-
 @SuppressWarnings( "serial" )
-public class RequestEntityTooLargeException extends WebApplicationException {
+public class RequestEntityTooLargeException extends DoWhatNowExceptionBase {
 
-	private final String requestPath;
-	private final int maxRequestLength;
+	private static final String defaultMessage = "Request body too large. Maximum request length is %d bytes";
 
 	/**
 	 * Create a HTTP 413 (Request Entity Too Large) exception.
 	 * 
-	 * @param message
-	 *            the String that is the entity of the 413 response.
+	 * @param requestPath
+	 *            the incoming request path that caused the exception
 	 */
 	public RequestEntityTooLargeException( String requestPath, int maxRequestLength ) {
 
-		super();
-		this.requestPath = requestPath;
-		this.maxRequestLength = maxRequestLength;
-	}
-
-	@Override
-	public String getMessage() {
-
-		String message = "{\"request\":\"" + requestPath + "\",\"error\":\"Request body too large. Maximum request length is " + maxRequestLength + " bytes\"}";
-		return message;
+		super( requestPath, defaultMessage, maxRequestLength );
 	}
 }

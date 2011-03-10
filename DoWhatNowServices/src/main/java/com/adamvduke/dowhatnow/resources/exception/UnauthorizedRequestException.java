@@ -1,28 +1,18 @@
 package com.adamvduke.dowhatnow.resources.exception;
 
-import javax.ws.rs.WebApplicationException;
-
 @SuppressWarnings( "serial" )
-public class UnauthorizedRequestException extends WebApplicationException {
+public class UnauthorizedRequestException extends DoWhatNowExceptionBase {
 
-	private final String requestPath;
+	private static final String defaultMessage = "Not Authorized";
 
 	/**
 	 * Create a HTTP 401 (Unauthorized Request) exception.
 	 * 
-	 * @param message
-	 *            the String that is the entity of the 401 response.
+	 * @param requestPath
+	 *            the incoming request path that caused the exception
 	 */
 	public UnauthorizedRequestException( String requestPath ) {
 
-		super();
-		this.requestPath = requestPath;
-	}
-
-	@Override
-	public String getMessage() {
-
-		String message = "{\"request\":\"" + requestPath + "\",\"error\":\"Not Authorized\"}";
-		return message;
+		super( requestPath, defaultMessage );
 	}
 }
