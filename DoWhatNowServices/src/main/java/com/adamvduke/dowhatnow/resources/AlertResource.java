@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
@@ -11,6 +12,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
@@ -18,6 +20,7 @@ import javax.ws.rs.core.UriInfo;
 
 import com.adamvduke.dowhatnow.model.Alert;
 import com.adamvduke.dowhatnow.resources.exception.BadRequestException;
+import com.adamvduke.dowhatnow.resources.exception.UnauthorizedRequestException;
 import com.google.appengine.api.oauth.OAuthRequestException;
 import com.google.appengine.api.oauth.OAuthService;
 import com.google.appengine.api.users.User;
@@ -63,6 +66,38 @@ public class AlertResource extends BaseResource {
 		}
 	}
 
+	@GET
+	@Path( "show/{alert_id}.json" )
+	@Produces( "application/json" )
+	public String showAlert( @Context UriInfo uriInfo, @PathParam( "alert_id" ) long alert_id ) throws OAuthRequestException {
+
+		PersistenceManager pm = persistenceManagerFactory.getPersistenceManager();
+		try {
+			User user = getUser();
+			Alert alert = pm.getObjectById( Alert.class, alert_id );
+			if ( !user.getUserId().equals( alert.getOwner() ) ) {
+
+				// if the current user's id doesn't match the owner of the alert
+				// throw an unauthorized exception
+				throw new UnauthorizedRequestException( uriInfo.getPath() );
+			}
+			return gson.toJson( alert );
+		}
+		catch ( UnauthorizedRequestException unauthorizedRequestException ) {
+			throw unauthorizedRequestException;
+		}
+		catch ( JDOObjectNotFoundException notFoundException ) {
+			throw notFoundException;
+		}
+		catch ( RuntimeException e ) {
+
+			throw new BadRequestException( uriInfo.getPath(), e.getMessage() );
+		}
+		finally {
+			pm.close();
+		}
+	}
+
 	@POST
 	@Path( "schedule.json" )
 	@Produces( "application/json" )
@@ -92,6 +127,64 @@ public class AlertResource extends BaseResource {
 			String message = numberFormatException.getClass().getSimpleName() + " " + numberFormatException.getMessage();
 			message = message.replace( "\"", "" );
 			throw new BadRequestException( uriInfo.getPath(), message );
+		}
+		catch ( RuntimeException e ) {
+
+			throw new BadRequestException( uriInfo.getPath(), e.getMessage() );
+		}
+		finally {
+			pm.close();
+		}
+	}
+
+	@POST
+	@Path( "destroy/{alert_id}.json" )
+	@Produces( "application/json" )
+	public String deleteAlert( @Context UriInfo uriInfo, @PathParam( "alert_id" ) long alert_id ) throws OAuthRequestException {
+
+		PersistenceManager pm = persistenceManagerFactory.getPersistenceManager();
+		try {
+			User user = getUser();
+			Alert alert = pm.getObjectById( Alert.class, alert_id );
+			if ( !user.getUserId().equals( alert.getOwner() ) ) {
+
+				// if the current user's id doesn't match the owner of the alert
+				// throw an unauthorized exception
+				throw new UnauthorizedRequestException( uriInfo.getPath() );
+			}
+			pm.deletePersistent( alert );
+			return gson.toJson( alert );
+		}
+		catch ( UnauthorizedRequestException unauthorizedRequestException ) {
+			throw unauthorizedRequestException;
+		}
+		catch ( JDOObjectNotFoundException notFoundException ) {
+			throw notFoundException;
+		}
+		catch ( RuntimeException e ) {
+
+			throw new BadRequestException( uriInfo.getPath(), e.getMessage() );
+		}
+		finally {
+			pm.close();
+		}
+	}
+
+	@POST
+	@Path( "reset.json" )
+	@Produces( "application/json" )
+	@SuppressWarnings( "unchecked" )
+	public String resetCalendar( @Context UriInfo uriInfo ) throws OAuthRequestException {
+
+		PersistenceManager pm = persistenceManagerFactory.getPersistenceManager();
+		try {
+			User user = getUser();
+			Query alertsQuery = pm.newQuery( Alert.class );
+			alertsQuery.setFilter( "owner == ownerParam" );
+			alertsQuery.declareParameters( "String ownerParam" );
+			List <Alert> alerts = (List <Alert>) alertsQuery.execute( user.getUserId() );
+			pm.deletePersistentAll( alerts );
+			return gson.toJson( alerts );
 		}
 		catch ( RuntimeException e ) {
 

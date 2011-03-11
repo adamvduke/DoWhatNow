@@ -28,7 +28,7 @@ public class CatchAllExceptionMapper implements ExceptionMapper <WebApplicationE
 		for ( String key : map.keySet() ) {
 			customResponseBuilder.header( key, map.get( key ) );
 		}
-		String exceptionMessage = exception.getMessage();
+		String exceptionMessage = exception.getMessage().replace( "java.lang.", "" );
 		if ( exceptionMessage == null ) {
 			exceptionMessage = defaultMessage;
 		}

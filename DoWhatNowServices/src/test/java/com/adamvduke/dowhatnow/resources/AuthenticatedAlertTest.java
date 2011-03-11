@@ -18,6 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.adamvduke.dowhatnow.model.Alert;
+import com.adamvduke.dowhatnow.resources.exception.BadRequestException;
 import com.adamvduke.dowhatnow.util.json.DoWhatNowGsonBuilder;
 import com.google.appengine.api.oauth.OAuthRequestException;
 import com.google.appengine.api.oauth.OAuthService;
@@ -162,5 +163,25 @@ public class AuthenticatedAlertTest {
 		// then
 		String expectedResult = "{\"title\":\"Dont forget\",\"detail\":\"You have that really important thing to do.\",\"date\":12345}";
 		Assert.assertEquals( expectedResult, result );
+	}
+
+	@Test( expected = BadRequestException.class )
+	public void shouldDoScheduleAndExpectBadRequestException() throws OAuthRequestException {
+
+		User user = userService.getCurrentUser();
+
+		// given
+		given( oauthService.getCurrentUser() ).willReturn( user );
+		given( uriInfo.getPath() ).willReturn( "alerts/schedule.json" );
+		given( persistenceManagerFactory.getPersistenceManager() ).willReturn( persistenceManager );
+
+		MultivaluedMap <String, String> formParams = new MultivaluedMapImpl();
+		formParams.putSingle( "title", "Dont forget" );
+		formParams.putSingle( "date", "abc" );
+		formParams.putSingle( "detail", "You have that really important thing to do." );
+
+		// when
+		AlertResource alertResource = new AlertResource( oauthService, persistenceManagerFactory, gson );
+		String result = alertResource.scheduleAlert( uriInfo, formParams );
 	}
 }

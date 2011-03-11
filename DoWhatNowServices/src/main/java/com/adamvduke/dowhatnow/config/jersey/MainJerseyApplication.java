@@ -6,8 +6,9 @@ import java.util.Set;
 import javax.ws.rs.core.Application;
 
 import com.adamvduke.dowhatnow.resources.AlertResource;
-import com.adamvduke.dowhatnow.resources.exception.mapper.CatchAllExceptionMapper;
 import com.adamvduke.dowhatnow.resources.exception.mapper.BadRequestExceptionMapper;
+import com.adamvduke.dowhatnow.resources.exception.mapper.CatchAllExceptionMapper;
+import com.adamvduke.dowhatnow.resources.exception.mapper.JDOObjectNotFoundExceptionMapper;
 import com.adamvduke.dowhatnow.resources.exception.mapper.MethodNotSupportedExceptionMapper;
 import com.adamvduke.dowhatnow.resources.exception.mapper.RequestEntityTooLargeExceptionMapper;
 import com.adamvduke.dowhatnow.resources.exception.mapper.UnauthorizedRequestExceptionMapper;
@@ -37,6 +38,7 @@ public class MainJerseyApplication extends Application {
 		s.add( RequestEntityTooLargeExceptionMapper.class );
 		s.add( UnauthorizedRequestExceptionMapper.class );
 		s.add( CatchAllExceptionMapper.class );
+		s.add( JDOObjectNotFoundExceptionMapper.class );
 		return s;
 	}
 }
