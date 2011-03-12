@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" 
+	xmlns:oauth="http://spring-security-oauth.codehaus.org/3.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+              http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.xsd
+              http://spring-security-oauth.codehaus.org/3.0 http://spring-security-oauth.codehaus.org/schema/spring-security-oauth-3.0.xsd">
+
+	<oauth:consumer resource-details-service-ref="resourceDetails">
+		<oauth:url pattern="/*" resources="dowhatnowalerts" />
+	</oauth:consumer>
+
+	<oauth:resource-details-service id="resourceDetails">
+		
+		<oauth:resource 
+		id="dowhatnowalerts_dev" 
+		key="adamcodez.appspot.com"
+		secret="yAFwgXZU1jELScQEJLmZ1s4Z" 
+		request-token-url="http://adamcodez.appspot.com/_ah/OAuthGetRequestToken"
+		user-authorization-url="http://adamcodez.appspot.com/_ah/OAuthAuthorizeToken"
+		access-token-url="http://adamcodez.appspot.com/_ah/OAuthGetAccessToken" />
+		
+		<oauth:resource 
+		id="dowhatnowalerts_prod" 
+		key="adamcodez.appspot.com"
+		secret="yAFwgXZU1jELScQEJLmZ1s4Z" 
+		request-token-url="http://adamcodez.appspot.com/_ah/OAuthGetRequestToken"
+		user-authorization-url="http://adamcodez.appspot.com/_ah/OAuthAuthorizeToken"
+		access-token-url="http://adamcodez.appspot.com/_ah/OAuthGetAccessToken" />
+	</oauth:resource-details-service>
+
+</beans:beans>
