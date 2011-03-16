@@ -2,6 +2,9 @@ application: adamcodez
 version: 1
 runtime: java
 
+inbound_services:
+ - warmup
+
 handlers:
     
  - url: /*
