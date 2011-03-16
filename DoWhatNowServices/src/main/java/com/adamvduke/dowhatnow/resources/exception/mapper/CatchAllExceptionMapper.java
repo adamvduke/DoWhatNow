@@ -1,41 +1,36 @@
 package com.adamvduke.dowhatnow.resources.exception.mapper;
 
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+import com.adamvduke.dowhatnow.resources.exception.mapper.base.BaseExceptionMapper;
+
 @Provider
-public class CatchAllExceptionMapper implements ExceptionMapper <WebApplicationException> {
+public class CatchAllExceptionMapper extends BaseExceptionMapper implements ExceptionMapper <WebApplicationException> {
 
-	private static final String formatMessage = "{\"request\":\"%s\",\"error\":\"%s\"}";
-	private static final String defaultMessage = "Check http response headers.";
-
-	@Context
-	UriInfo uriInfo;
+	private static final String defaultMessage = "HTTP Error: %d";
 
 	@Override
 	public Response toResponse( WebApplicationException exception ) {
 
 		Response jerseyResponse = exception.getResponse();
 		ResponseBuilder customResponseBuilder = Response.status( jerseyResponse.getStatus() );
-		MultivaluedMap <String, Object> map = jerseyResponse.getMetadata();
-		for ( String key : map.keySet() ) {
-			customResponseBuilder.header( key, map.get( key ) );
-		}
 		String exceptionMessage = exception.getMessage();
+
+		// TODO: this is ugly
 		if ( exceptionMessage != null && exceptionMessage.contains( "java.lang." ) ) {
 			exceptionMessage.replace( "java.lang.", "" );
 		}
+
 		if ( exceptionMessage == null ) {
-			exceptionMessage = defaultMessage;
+			exceptionMessage = String.format( defaultMessage, jerseyResponse.getStatus() );
 		}
-		customResponseBuilder.entity( String.format( formatMessage, uriInfo.getPath(), exceptionMessage ) );
+		String message = getFormattedException( exceptionMessage );
+		customResponseBuilder.entity( message );
 		customResponseBuilder.type( MediaType.APPLICATION_JSON );
 		return customResponseBuilder.build();
 	}

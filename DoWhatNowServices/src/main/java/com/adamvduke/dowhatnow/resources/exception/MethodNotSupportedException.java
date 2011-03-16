@@ -1,20 +1,52 @@
 package com.adamvduke.dowhatnow.resources.exception;
 
-@SuppressWarnings( "serial" )
-public class MethodNotSupportedException extends DoWhatNowExceptionBase {
+import javax.ws.rs.WebApplicationException;
 
-	private static final String defaultMessage = "Unsupported method: %s";
+@SuppressWarnings( "serial" )
+public class MethodNotSupportedException extends WebApplicationException {
+
+	private static final String defaultMessage = "Unsupported http method";
+	private final String message;
 
 	/**
 	 * Create a HTTP 405 (Method Not Supported) exception.
 	 * 
-	 * @param requestPath
-	 *            the incoming request path that caused the exception
 	 * @param method
 	 *            the http method used
 	 */
-	public MethodNotSupportedException( String requestPath, String method ) {
+	public MethodNotSupportedException() {
 
-		super( requestPath, defaultMessage, method );
+		super();
+		this.message = String.format( defaultMessage );
+	}
+
+	/**
+	 * Create a HTTP 405 (Method Not Supported) exception.
+	 * 
+	 * @param method
+	 *            the http method used
+	 */
+	public MethodNotSupportedException( String method ) {
+
+		super();
+		this.message = defaultMessage + ": " + method;
+	}
+
+	/**
+	 * Create a HTTP 405 (Method Not Supported) exception.
+	 * 
+	 * @param method
+	 *            the http method used
+	 */
+	public MethodNotSupportedException( String method, String message ) {
+
+		super();
+		this.message = message + ": " + method;
+	}
+
+	@Override
+	public String getMessage() {
+
+		return message;
 	}
 }

@@ -6,13 +6,15 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 import com.adamvduke.dowhatnow.resources.exception.MethodNotSupportedException;
+import com.adamvduke.dowhatnow.resources.exception.mapper.base.BaseExceptionMapper;
 
 @Provider
-public class MethodNotSupportedExceptionMapper implements ExceptionMapper <com.adamvduke.dowhatnow.resources.exception.MethodNotSupportedException> {
+public class MethodNotSupportedExceptionMapper extends BaseExceptionMapper implements ExceptionMapper <MethodNotSupportedException> {
 
 	@Override
 	public Response toResponse( MethodNotSupportedException exception ) {
 
-		return Response.status( 405 ).entity( exception.getMessage() ).type( MediaType.APPLICATION_JSON ).build();
+		String message = getFormattedException( exception.getMessage() );
+		return Response.status( 405 ).entity( message ).type( MediaType.APPLICATION_JSON ).build();
 	}
 }

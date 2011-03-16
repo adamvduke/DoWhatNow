@@ -1,24 +1,20 @@
 package com.adamvduke.dowhatnow.resources.exception.mapper;
 
 import javax.jdo.JDOObjectNotFoundException;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
 
-public class JDOObjectNotFoundExceptionMapper implements ExceptionMapper <JDOObjectNotFoundException> {
+import com.adamvduke.dowhatnow.resources.exception.mapper.base.BaseExceptionMapper;
 
-	private static final String formatMessage = "{\"request\":\"%s\",\"error\":\"%s\"}";
-
-	@Context
-	UriInfo uriInfo;
+@Provider
+public class JDOObjectNotFoundExceptionMapper extends BaseExceptionMapper implements ExceptionMapper <JDOObjectNotFoundException> {
 
 	@Override
-	public Response toResponse( JDOObjectNotFoundException arg0 ) {
+	public Response toResponse( JDOObjectNotFoundException exception ) {
 
-		String message = String.format( formatMessage, uriInfo.getPath(), "No alert scheduled with that ID." );
-
+		String message = getFormattedException( exception.getMessage() );
 		return Response.status( 404 ).entity( message ).type( MediaType.APPLICATION_JSON ).build();
 	}
 }

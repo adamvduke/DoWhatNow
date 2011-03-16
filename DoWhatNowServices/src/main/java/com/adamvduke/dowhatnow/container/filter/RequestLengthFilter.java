@@ -19,7 +19,7 @@ public class RequestLengthFilter implements ContainerRequestFilter {
 			int contentLength = Integer.parseInt( contentLengthHeader );
 			if ( contentLength > maxRequestLength ) {
 
-				throw new RequestEntityTooLargeException( request.getPath(), maxRequestLength );
+				throw new RequestEntityTooLargeException( maxRequestLength );
 			}
 		}
 		return request;

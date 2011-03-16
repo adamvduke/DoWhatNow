@@ -59,7 +59,7 @@ public class AlertResource extends BaseResource {
 		}
 		catch ( RuntimeException e ) {
 
-			throw new BadRequestException( uriInfo.getPath(), e.getMessage() );
+			throw new BadRequestException( e.getMessage() );
 		}
 		finally {
 			pm.close();
@@ -91,7 +91,7 @@ public class AlertResource extends BaseResource {
 		}
 		catch ( RuntimeException e ) {
 
-			throw new BadRequestException( uriInfo.getPath(), e.getMessage() );
+			throw new BadRequestException( e.getMessage() );
 		}
 		finally {
 			pm.close();
@@ -126,11 +126,11 @@ public class AlertResource extends BaseResource {
 
 			String message = numberFormatException.getClass().getSimpleName() + " " + numberFormatException.getMessage();
 			message = message.replace( "\"", "" );
-			throw new BadRequestException( uriInfo.getPath(), message );
+			throw new BadRequestException( message );
 		}
 		catch ( RuntimeException e ) {
 
-			throw new BadRequestException( uriInfo.getPath(), e.getMessage() );
+			throw new BadRequestException( e.getMessage() );
 		}
 		finally {
 			pm.close();
@@ -163,7 +163,7 @@ public class AlertResource extends BaseResource {
 		}
 		catch ( RuntimeException e ) {
 
-			throw new BadRequestException( uriInfo.getPath(), e.getMessage() );
+			throw new BadRequestException( e.getMessage() );
 		}
 		finally {
 			pm.close();
@@ -188,7 +188,7 @@ public class AlertResource extends BaseResource {
 		}
 		catch ( RuntimeException e ) {
 
-			throw new BadRequestException( uriInfo.getPath(), e.getMessage() );
+			throw new BadRequestException( e.getMessage() );
 		}
 		finally {
 			pm.close();

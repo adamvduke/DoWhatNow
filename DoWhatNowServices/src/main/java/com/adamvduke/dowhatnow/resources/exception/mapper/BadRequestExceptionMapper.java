@@ -6,13 +6,15 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 import com.adamvduke.dowhatnow.resources.exception.BadRequestException;
+import com.adamvduke.dowhatnow.resources.exception.mapper.base.BaseExceptionMapper;
 
 @Provider
-public class BadRequestExceptionMapper implements ExceptionMapper <com.adamvduke.dowhatnow.resources.exception.BadRequestException> {
+public class BadRequestExceptionMapper extends BaseExceptionMapper implements ExceptionMapper <BadRequestException> {
 
 	@Override
 	public Response toResponse( BadRequestException exception ) {
 
-		return Response.status( 400 ).entity( exception.getMessage() ).type( MediaType.APPLICATION_JSON ).build();
+		String message = getFormattedException( exception.getMessage() );
+		return Response.status( 400 ).entity( message ).type( MediaType.APPLICATION_JSON ).build();
 	}
 }

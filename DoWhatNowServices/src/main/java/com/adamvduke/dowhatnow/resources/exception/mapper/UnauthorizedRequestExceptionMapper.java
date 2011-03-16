@@ -6,14 +6,17 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.ext.ExceptionMapper;
 
 import com.adamvduke.dowhatnow.resources.exception.UnauthorizedRequestException;
+import com.adamvduke.dowhatnow.resources.exception.mapper.base.BaseExceptionMapper;
 
-public class UnauthorizedRequestExceptionMapper implements ExceptionMapper <com.adamvduke.dowhatnow.resources.exception.UnauthorizedRequestException> {
+public class UnauthorizedRequestExceptionMapper extends BaseExceptionMapper implements ExceptionMapper <UnauthorizedRequestException> {
 
 	@Override
 	public Response toResponse( UnauthorizedRequestException exception ) {
 
+		String message = getFormattedException( exception.getMessage() );
+
 		ResponseBuilder builder = Response.status( 401 );
-		builder.entity( exception.getMessage() );
+		builder.entity( message );
 		builder.type( MediaType.APPLICATION_JSON );
 		builder.header( "WWW-Authenticate", "OAuth realm=\"http://adamcodez.appspot.com\"" );
 		return builder.build();
