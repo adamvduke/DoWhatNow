@@ -7,17 +7,24 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.security.oauth.common.OAuthCodec;
 import org.springframework.security.oauth.consumer.OAuthConsumerSupport;
 import org.springframework.security.oauth.consumer.token.OAuthConsumerToken;
 
-public class BaseIntegrationTest {
+public class IntegrationSupport {
 
 	protected static ClassPathXmlApplicationContext context;
 	protected OAuthConsumerSupport support;
+	protected boolean production;
+	protected String resource_id;
+	protected String upcomingUrlString;
+	protected String resetUrlString;
+	protected String scheduleAlertUrlString;
 
 	/**
 	 * Setup the Spring context for any subclasses
@@ -32,16 +39,62 @@ public class BaseIntegrationTest {
 	public void setup() throws Exception {
 
 		this.support = (OAuthConsumerSupport) context.getBean( "oauthConsumerSupport" );
+
+		try {
+			production = Boolean.parseBoolean( System.getProperty( "testProduction" ) );
+		}
+		catch ( Exception e ) {
+			production = false;
+		}
+
+		if ( production ) {
+			resource_id = "dowhatnowalerts_prod";
+			upcomingUrlString = "https://adamcodez.appspot.com/alerts/upcoming.json";
+			resetUrlString = "https://adamcodez.appspot.com/alerts/reset.json";
+			scheduleAlertUrlString = "https://adamcodez.appspot.com/alerts/schedule.json";
+		}
+		else {
+			resource_id = "dowhatnowalerts_dev";
+			upcomingUrlString = "http://localhost:8888/alerts/upcoming.json";
+			resetUrlString = "http://localhost:8888/alerts/reset.json";
+			scheduleAlertUrlString = "http://localhost:8888/alerts/schedule.json";
+		}
 	}
 
-	protected OAuthConsumerToken getAccessToken() throws Exception {
+	protected OAuthConsumerToken getValidAccessToken() throws Exception {
 
 		OAuthConsumerToken accessToken = new OAuthConsumerToken();
-		accessToken.setResourceId( "dowhatnowalerts_dev" );
 		accessToken.setAccessToken( true );
+		accessToken.setResourceId( resource_id );
 		accessToken.setValue( "1/-ovI4wOxEBuY_ZDhVYhnEUZUca92uFF_nFGj5GbEwzQ" );
 		accessToken.setSecret( "sCu1sZCGn1IRAYsOxoryUAW6" );
 		return accessToken;
+	}
+
+	protected OAuthConsumerToken getBadAccessToken() throws Exception {
+
+		OAuthConsumerToken accessToken = new OAuthConsumerToken();
+		accessToken.setAccessToken( true );
+		accessToken.setResourceId( resource_id );
+		accessToken.setValue( "XXXXXXXXX" );
+		accessToken.setSecret( "XXXXXXXXX" );
+		return accessToken;
+	}
+
+	protected String getPostBody( Map <String, String> additionalParams ) {
+
+		StringBuilder builder = new StringBuilder();
+		int i = additionalParams.size();
+		for ( Map.Entry <String, String> entry : additionalParams.entrySet() ) {
+			builder.append( entry.getKey() );
+			builder.append( "=" );
+			builder.append( OAuthCodec.oauthEncode( entry.getValue() ) );
+			if ( i > 1 ) {
+				builder.append( "&" );
+				i--;
+			}
+		}
+		return builder.toString();
 	}
 
 	protected String convertStreamToString( InputStream is ) throws IOException {
