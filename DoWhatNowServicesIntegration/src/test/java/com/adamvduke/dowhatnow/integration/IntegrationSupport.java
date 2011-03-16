@@ -66,8 +66,14 @@ public class IntegrationSupport {
 		OAuthConsumerToken accessToken = new OAuthConsumerToken();
 		accessToken.setAccessToken( true );
 		accessToken.setResourceId( resource_id );
-		accessToken.setValue( "1/-ovI4wOxEBuY_ZDhVYhnEUZUca92uFF_nFGj5GbEwzQ" );
-		accessToken.setSecret( "sCu1sZCGn1IRAYsOxoryUAW6" );
+
+		// avdpresence tokens
+		accessToken.setValue( "1/nRxjSQwNswhdrA-_ZUFaqncrtEVCEt8sHDePHXWgt_8" );
+		accessToken.setSecret( "MdX8KVWh5nvx12_Eae3k0rYC" );
+
+		// adam.v.duke tokens
+		// accessToken.setValue( "1/-ovI4wOxEBuY_ZDhVYhnEUZUca92uFF_nFGj5GbEwzQ" );
+		// accessToken.setSecret( "sCu1sZCGn1IRAYsOxoryUAW6" );
 		return accessToken;
 	}
 
