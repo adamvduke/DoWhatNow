@@ -1,3 +1,4 @@
 .metadata/
-DoWhatNowServices/target/
-DoWhatNowServicesIntegration/target/
+
+UnifeedIntegration_AppEngine/target/
+Unifeed_AppEngine/target/
