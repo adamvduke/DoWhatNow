@@ -38,7 +38,7 @@
 		<value>xoauth_displayname</value>
 	</util:list>
 	
-	<bean id="oauthConsumerSupport" class="com.adamvduke.dowhatnow.integration.DWNOAuthConsumerSupport">
+	<bean id="oauthConsumerSupport" class="com.adamvduke.dowhatnow.integration.oauth.DWNOAuthConsumerSupport">
 		<property name="validAdditionalOAuthParamNames" ref="validAdditionalOAuthParamNames"/>
 		<property name="protectedResourceDetailsService" ref="resourceDetails"/>
 	</bean>

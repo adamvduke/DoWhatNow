@@ -1,5 +1,6 @@
 package com.adamvduke.dowhatnow.integration;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.InputStream;
@@ -15,6 +16,8 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 import org.springframework.security.oauth.consumer.token.OAuthConsumerToken;
+
+import com.adamvduke.dowhatnow.integration.patterns.ResponsePatterns;
 
 public class DWNIntegrationTest extends IntegrationSupport {
 
@@ -40,17 +43,25 @@ public class DWNIntegrationTest extends IntegrationSupport {
 		outStream.write( (byte) 0 );
 		inputStream = connection.getInputStream();
 		json = convertStreamToString( inputStream );
-		Assert.assertTrue( json.equals( "[]" ) );
+
+		Pattern pattern = ResponsePatterns.emptyAlertPattern;
+		Matcher matcher = pattern.matcher( json );
+		assertTrue( matcher.matches() );
 	}
 
 	@Test
 	public void shouldRecieveUpcomingAlerts() throws Exception {
 
+		shouldResetAlerts();
+		shouldScheduleAlertAndSucceed();
 		OAuthConsumerToken accessToken = getValidAccessToken();
 		URL upcomingUrl = new URL( upcomingUrlString );
 		InputStream inputStream = support.readProtectedResource( upcomingUrl, accessToken, "GET" );
 		String json = convertStreamToString( inputStream );
-		System.out.println( json );
+
+		Pattern pattern = ResponsePatterns.alertListPattern;
+		Matcher matcher = pattern.matcher( json );
+		assertTrue( matcher.matches() );
 	}
 
 	@Test
@@ -74,11 +85,9 @@ public class DWNIntegrationTest extends IntegrationSupport {
 		InputStream inputStream = connection.getInputStream();
 		String json = convertStreamToString( inputStream );
 
-		// {"request":"alerts/schedule.json","error":"NumberFormatException For input string: 12345a"}
-		String regex = "\\{\"request\":\".*\",\"error\":\".*\"\\}";
-		Pattern pattern = Pattern.compile( regex );
+		Pattern pattern = ResponsePatterns.singleAlertPattern;
 		Matcher matcher = pattern.matcher( json );
-		Assert.assertFalse( matcher.matches() );
+		assertTrue( matcher.matches() );
 	}
 
 	@Test
@@ -109,8 +118,7 @@ public class DWNIntegrationTest extends IntegrationSupport {
 			String json = convertStreamToString( inputStream );
 
 			// {"request":"alerts/schedule.json","error":"NumberFormatException For input string: 12345a"}
-			String regex = "\\{\"request\":\".*\",\"error\":\".*\"\\}";
-			Pattern pattern = Pattern.compile( regex );
+			Pattern pattern = ResponsePatterns.errorPattern;
 			Matcher matcher = pattern.matcher( json );
 			Assert.assertTrue( matcher.matches() );
 		}
