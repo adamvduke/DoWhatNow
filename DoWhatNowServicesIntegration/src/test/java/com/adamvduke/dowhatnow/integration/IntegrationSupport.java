@@ -40,10 +40,11 @@ public class IntegrationSupport {
 
 		this.support = (OAuthConsumerSupport) context.getBean( "oauthConsumerSupport" );
 
-		try {
-			production = Boolean.parseBoolean( System.getProperty( "testProduction" ) );
+		String propertyValue = System.getProperty( "testProduction" );
+		if ( propertyValue != null ) {
+			production = Boolean.parseBoolean( propertyValue );
 		}
-		catch ( Exception e ) {
+		else {
 			production = false;
 		}
 

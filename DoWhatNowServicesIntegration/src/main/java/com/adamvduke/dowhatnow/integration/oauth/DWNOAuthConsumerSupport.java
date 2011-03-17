@@ -1,4 +1,4 @@
-package com.adamvduke.dowhatnow.integration;
+package com.adamvduke.dowhatnow.integration.oauth;
 
 import java.net.URL;
 import java.util.List;
