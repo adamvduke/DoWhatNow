@@ -1,8 +1,8 @@
 package com.adamvduke.dowhatnow.config.guice.modules;
 
 import com.adamvduke.appengine.common.interceptors.TimingInterceptor;
-import com.adamvduke.appengine.common.json.DoWhatNowGsonBuilder;
-import com.adamvduke.appengine.common.json.DoWhatNowJson;
+import com.adamvduke.appengine.common.json.AppEngineGsonBuilder;
+import com.adamvduke.appengine.common.json.AppEngineJsonProvider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.Binder;
@@ -20,11 +20,11 @@ public class DoWhatNowModule implements Module {
 	public void configure( Binder binder ) {
 
 		// bind a GsonBuilder provider that has been configured
-		binder.bind( GsonBuilder.class ).toProvider( DoWhatNowGsonBuilder.class );
+		binder.bind( GsonBuilder.class ).toProvider( AppEngineGsonBuilder.class );
 
 		// bind a Gson provider, the GsonBuilder is constructor injected
 		// so that the configuration from DoWhatNowGsonBuilder is used
-		binder.bind( Gson.class ).toProvider( DoWhatNowJson.class );
+		binder.bind( Gson.class ).toProvider( AppEngineJsonProvider.class );
 
 		// optionally bind the timing interceptor based on the system property
 		// "dowhatnow.all-invocation-interceptor.active"

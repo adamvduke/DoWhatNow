@@ -18,7 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.adamvduke.appengine.common.exception.BadRequestException;
-import com.adamvduke.appengine.common.json.DoWhatNowGsonBuilder;
+import com.adamvduke.appengine.common.json.AppEngineGsonBuilder;
 import com.adamvduke.dowhatnow.model.Alert;
 import com.google.appengine.api.oauth.OAuthRequestException;
 import com.google.appengine.api.oauth.OAuthService;
@@ -57,7 +57,7 @@ public class AuthenticatedAlertTest {
 		persistenceManagerFactory = mock( PersistenceManagerFactory.class );
 		uriInfo = mock( UriInfo.class );
 		userService = UserServiceFactory.getUserService();
-		gson = new DoWhatNowGsonBuilder().get().create();
+		gson = new AppEngineGsonBuilder().get().create();
 	}
 
 	@After

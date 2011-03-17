@@ -5,12 +5,12 @@ import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class DoWhatNowJson implements Provider <Gson> {
+public class AppEngineJsonProvider implements Provider <Gson> {
 
 	private final GsonBuilder builder;
 
 	@Inject
-	public DoWhatNowJson( GsonBuilder builder ) {
+	public AppEngineJsonProvider( GsonBuilder builder ) {
 
 		this.builder = builder;
 	}

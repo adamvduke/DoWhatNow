@@ -7,7 +7,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class DoWhatNowGsonBuilder implements Provider <GsonBuilder> {
+public class AppEngineGsonBuilder implements Provider <GsonBuilder> {
 
 	@Override
 	public GsonBuilder get() {

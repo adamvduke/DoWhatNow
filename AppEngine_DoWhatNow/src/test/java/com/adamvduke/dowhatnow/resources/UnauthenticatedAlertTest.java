@@ -10,7 +10,7 @@ import javax.ws.rs.core.UriInfo;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.adamvduke.appengine.common.json.DoWhatNowGsonBuilder;
+import com.adamvduke.appengine.common.json.AppEngineGsonBuilder;
 import com.google.appengine.api.oauth.OAuthRequestException;
 import com.google.appengine.api.oauth.OAuthService;
 import com.google.gson.Gson;
@@ -30,7 +30,7 @@ public class UnauthenticatedAlertTest {
 		persistenceManagerFactory = mock( PersistenceManagerFactory.class );
 		oauthService = mock( OAuthService.class );
 		uriInfo = mock( UriInfo.class );
-		gson = new DoWhatNowGsonBuilder().get().create();
+		gson = new AppEngineGsonBuilder().get().create();
 	}
 
 	@Test( expected = OAuthRequestException.class )

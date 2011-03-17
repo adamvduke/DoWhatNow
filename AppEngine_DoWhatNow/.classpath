@@ -117,5 +117,5 @@
 	<classpathentry kind="var" path="M2_REPO/com/sun/jersey/jersey-server/1.5/jersey-server-1.5.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/sun/jersey/contribs/jersey-guice/1.5/jersey-guice-1.5.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/AppEngine_Common"/>
-	<classpathentry kind="output" path="target/dowhatnowservices-1.0-SNAPSHOT/WEB-INF/classes"/>
+	<classpathentry kind="output" path="target/appengine.dowhatnow-1.0-SNAPSHOT"/>
 </classpath>

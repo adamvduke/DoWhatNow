@@ -29,7 +29,7 @@ public class OAuthFilter implements ContainerRequestFilter {
 		catch ( OAuthRequestException e ) {
 
 			// this should only happen in the case where the request hasn't been property signed
-			throw new UnauthorizedRequestException( request.getPath() );
+			throw new UnauthorizedRequestException( e.getMessage() );
 		}
 		return request;
 	}
