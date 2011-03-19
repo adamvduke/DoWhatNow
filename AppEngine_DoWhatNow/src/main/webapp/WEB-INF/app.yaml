@@ -2,7 +2,7 @@ application: adamcodez
 version: 1
 runtime: java
 
-# enable warmup requests
+# enable warmup requests 
 inbound_services:
  - warmup
 
