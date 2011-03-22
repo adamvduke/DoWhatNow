@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<!-- Tell spring how to make a gson factory instance -->
+	<bean id="gsonFactory" class="com.adamvduke.appengine.common.json.AppEngineGsonFactory">
+		<property name="prettyPrinting" value="false"/>
+	</bean>
+	
+	<!-- Tell spring how to get a gson instance from the gsonFactory -->
+	<bean id="gson" factory-bean="gsonFactory" factory-method="getGson"/>
+	
+	<!-- Tell spring how to make an AlertResource instance -->
+	<bean id="alertResource" class="com.adamvduke.dowhatnow.rest.resources.AlertResource">
+		<property name="persistenceManagerFactory" ref="persistenceManagerFactory"/>
+		<property name="oauthService" ref="oauthService"/>
+		<property name="gson" ref="gson"/>
+	</bean>
+	
+</beans>

@@ -1,0 +1,12 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<!-- Tell spring how to make an oauthService -->
+	<bean id="oauthService" class="com.google.appengine.api.oauth.OAuthServiceFactory" factory-method="getOAuthService"/>
+	
+	<!-- Tell spring how to make a peristenceManagerFactory -->
+	<bean id="persistenceManagerFactory" class="javax.jdo.JDOHelper" factory-method="getPersistenceManagerFactory">
+		<constructor-arg value="transactions-optional"/>
+	</bean>
+</beans>
