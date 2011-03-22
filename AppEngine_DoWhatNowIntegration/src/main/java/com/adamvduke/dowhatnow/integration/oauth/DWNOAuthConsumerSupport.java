@@ -13,7 +13,7 @@ import org.springframework.security.oauth.consumer.token.OAuthConsumerToken;
 
 public class DWNOAuthConsumerSupport extends CoreOAuthConsumerSupport {
 
-	private List <String> validAdditionalOAuthParamNames;
+	private Map <String, List <String>> validAdditionalOAuthParamNamesMap;
 
 	@Override
 	public String getAuthorizationHeader( ProtectedResourceDetails details, OAuthConsumerToken accessToken, URL url, String httpMethod, Map <String, String> additionalParameters ) {
@@ -35,8 +35,11 @@ public class DWNOAuthConsumerSupport extends CoreOAuthConsumerSupport {
 			for ( Map.Entry <String, Set <CharSequence>> paramValuesEntry : oauthParams.entrySet() ) {
 				String key = paramValuesEntry.getKey();
 
+				// TODO: Need to rework this so that the map and lists don't need to be specified
+				List <String> validAdditionalOAuthParamNames = validAdditionalOAuthParamNamesMap.get( details.getId() );
+
 				// filtering out the invalid parameters from the authorization header
-				if ( !key.startsWith( "oauth_" ) && !validAdditionalOAuthParamNames.contains( key ) ) {
+				if ( !key.startsWith( "oauth_" ) && validAdditionalOAuthParamNames != null && !validAdditionalOAuthParamNames.contains( key ) ) {
 					continue;
 				}
 				Set <CharSequence> paramValues = paramValuesEntry.getValue();
@@ -55,14 +58,14 @@ public class DWNOAuthConsumerSupport extends CoreOAuthConsumerSupport {
 		}
 	}
 
-	public List <String> getValidAdditionalOAuthParamNames() {
+	public Map <String, List <String>> getValidAdditionalOAuthParamNamesMap() {
 
-		return validAdditionalOAuthParamNames;
+		return validAdditionalOAuthParamNamesMap;
 	}
 
-	public void setValidAdditionalOAuthParamNames( List <String> validAdditionalOAuthParamNames ) {
+	public void setValidAdditionalOAuthParamNamesMap( Map <String, List <String>> validAdditionalOAuthParamNamesMap ) {
 
-		this.validAdditionalOAuthParamNames = validAdditionalOAuthParamNames;
+		this.validAdditionalOAuthParamNamesMap = validAdditionalOAuthParamNamesMap;
 	}
 
 	@Override

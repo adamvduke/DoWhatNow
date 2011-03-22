@@ -32,14 +32,25 @@
 		user-authorization-url="http://adamcodez.appspot.com/_ah/OAuthAuthorizeToken"
 		access-token-url="http://adamcodez.appspot.com/_ah/OAuthGetAccessToken" />
 	</oauth:resource-details-service>
-	
-	<util:list id="validAdditionalOAuthParamNames">
+
+	<util:list id="validAdditionalOAuthParamNames_dev">
 		<value>scope</value>
 		<value>xoauth_displayname</value>
 	</util:list>
-	
+
+	<util:list id="validAdditionalOAuthParamNames_prod">
+		<value>scope</value>
+		<value>xoauth_displayname</value>
+		<value>some_other_parameter</value>
+	</util:list>
+
+	<util:map id="validAdditionalOAuthParamNamesMap">
+		<entry key="dowhatnowalerts_dev" value-ref="validAdditionalOAuthParamNames_dev" />
+		<entry key="dowhatnowalerts_prod" value-ref="validAdditionalOAuthParamNames_prod" />
+	</util:map>
+
 	<bean id="oauthConsumerSupport" class="com.adamvduke.dowhatnow.integration.oauth.DWNOAuthConsumerSupport">
-		<property name="validAdditionalOAuthParamNames" ref="validAdditionalOAuthParamNames"/>
+		<property name="validAdditionalOAuthParamNamesMap" ref="validAdditionalOAuthParamNamesMap"/>
 		<property name="protectedResourceDetailsService" ref="resourceDetails"/>
 	</bean>
 
