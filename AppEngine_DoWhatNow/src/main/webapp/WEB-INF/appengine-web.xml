@@ -1,4 +1,20 @@
+<!-- Generated from app.yaml. Do not edit. -->
 <appengine-web-app xmlns='http://appengine.google.com/ns/1.0'>
-	<application>adamcodez</application>
-	<version>1</version>
+  <application>adamcodez</application>
+  <version>1</version>
+  <static-files>
+  </static-files>
+  <resource-files>
+  </resource-files>
+  <ssl-enabled>true</ssl-enabled>
+  <precompilation-enabled>true</precompilation-enabled>
+  <sessions-enabled>false</sessions-enabled>
+  <system-properties>
+    <property name='appengine.all-invocation-interceptor.active' value='false'/>
+    <property name='java.util.logging.config.file' value='WEB-INF/logging.properties'/>
+    <property name='appengine.maximum-request-length' value='500'/>
+  </system-properties>
+  <inbound-services>
+  </inbound-services>
+  <warmup-requests-enabled>true</warmup-requests-enabled>
 </appengine-web-app>

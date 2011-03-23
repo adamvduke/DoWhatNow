@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+              http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+	
+	<!-- Set up the OAuthFilter with the oauthService -->
+	<bean id="oauthFilter" class="com.adamvduke.appengine.common.filter.OAuthFilter">
+		<property name="oauthService" ref="oauthService"/>
+	</bean>
+	
+	<!-- Create the list of requestFilters -->
+	<util:list id="requestFilters">
+		<value>com.adamvduke.appengine.common.filter.RequestLengthFilter</value>
+		<value>com.adamvduke.appengine.common.filter.OAuthFilter</value>		
+	</util:list>
+
+	<!-- Create the properties and features map for configuring jersey -->
+	<util:map id="propertiesAndFeatures">
+		<entry key="com.sun.jersey.spi.container.ContainerRequestFilters" value-ref="requestFilters"/>
+		<entry key="com.sun.jersey.config.feature.DisableWADL" value="true"/>
+	</util:map>
+	
+	<!-- Define the JerseyResourceConfig -->
+	<bean id="jerseyResourceConfig" class="com.adamvduke.dowhatnow.config.jersey.JerseyResourceConfig" scope="singleton">
+		<property name="propertiesAndFeatures" ref="propertiesAndFeatures"/>
+	</bean>
+
+</beans>

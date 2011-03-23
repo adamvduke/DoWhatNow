@@ -17,9 +17,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.adamvduke.appengine.common.exception.BadRequestException;
-import com.adamvduke.appengine.common.json.AppEngineGsonBuilder;
+import com.adamvduke.appengine.common.json.AppEngineGsonFactory;
 import com.adamvduke.dowhatnow.model.Alert;
+import com.adamvduke.dowhatnow.rest.resources.AlertResource;
+import com.adamvduke.jersey.ext.exception.BadRequestException;
 import com.google.appengine.api.oauth.OAuthRequestException;
 import com.google.appengine.api.oauth.OAuthService;
 import com.google.appengine.api.users.User;
@@ -57,7 +58,7 @@ public class AuthenticatedAlertTest {
 		persistenceManagerFactory = mock( PersistenceManagerFactory.class );
 		uriInfo = mock( UriInfo.class );
 		userService = UserServiceFactory.getUserService();
-		gson = new AppEngineGsonBuilder().get().create();
+		gson = new AppEngineGsonFactory().getGson();
 	}
 
 	@After

@@ -6,7 +6,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import com.adamvduke.appengine.common.exception.mapper.base.BaseExceptionMapper;
+import com.adamvduke.jersey.ext.exception.mapper.base.BaseExceptionMapper;
 
 @Provider
 public class JDOObjectNotFoundExceptionMapper extends BaseExceptionMapper implements ExceptionMapper <JDOObjectNotFoundException> {

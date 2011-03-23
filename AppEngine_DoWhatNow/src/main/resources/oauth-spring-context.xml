@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:oauth="http://spring-security-oauth.codehaus.org/3.0"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+              http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.xsd
+              http://spring-security-oauth.codehaus.org/3.0 http://spring-security-oauth.codehaus.org/schema/spring-security-oauth-3.0.xsd
+              http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd 
+              http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+	<oauth:consumer resource-details-service-ref="resourceDetails">
+		<oauth:url pattern="/*" resources="dowhatnowalerts_prod" />
+	</oauth:consumer>
+
+	<oauth:resource-details-service id="resourceDetails">
+		
+		<oauth:resource 
+		id="dowhatnowalerts_dev" 
+		key="adamcodez.appspot.com"
+		secret="yAFwgXZU1jELScQEJLmZ1s4Z" 
+		request-token-url="http://adamcodez.appspot.com/_ah/OAuthGetRequestToken"
+		user-authorization-url="http://adamcodez.appspot.com/_ah/OAuthAuthorizeToken"
+		access-token-url="http://adamcodez.appspot.com/_ah/OAuthGetAccessToken" />
+		
+		<oauth:resource 
+		id="dowhatnowalerts_prod" 
+		key="adamcodez.appspot.com"
+		secret="yAFwgXZU1jELScQEJLmZ1s4Z" 
+		request-token-url="http://adamcodez.appspot.com/_ah/OAuthGetRequestToken"
+		user-authorization-url="http://adamcodez.appspot.com/_ah/OAuthAuthorizeToken"
+		access-token-url="http://adamcodez.appspot.com/_ah/OAuthGetAccessToken" />
+	</oauth:resource-details-service>
+	
+	<util:list id="validAdditionalOAuthParamNames_dev">
+		<value>scope</value>
+		<value>xoauth_displayname</value>
+	</util:list>
+	
+	<util:list id="validAdditionalOAuthParamNames_prod">
+		<value>scope</value>
+		<value>xoauth_displayname</value>
+	</util:list>
+	
+	<util:map id="validAdditionalOAuthParamNamesMap">
+		<entry key="dowhatnowalerts_dev" value-ref="validAdditionalOAuthParamNames_dev" />
+		<entry key="dowhatnowalerts_prod" value-ref="validAdditionalOAuthParamNames_prod" />
+	</util:map>
+	
+	<bean id="oauthConsumerSupport" class="com.adamvduke.spring.oauth.CoreOAuthConsumerSupport">
+		<property name="validAdditionalOAuthParamNamesMap" ref="validAdditionalOAuthParamNamesMap"/>
+		<property name="protectedResourceDetailsService" ref="resourceDetails"/>
+	</bean>
+
+</beans>

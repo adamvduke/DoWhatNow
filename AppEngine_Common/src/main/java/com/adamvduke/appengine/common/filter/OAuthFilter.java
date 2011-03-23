@@ -1,10 +1,8 @@
 package com.adamvduke.appengine.common.filter;
 
-import com.adamvduke.appengine.common.exception.UnauthorizedRequestException;
+import com.adamvduke.jersey.ext.exception.UnauthorizedRequestException;
 import com.google.appengine.api.oauth.OAuthRequestException;
 import com.google.appengine.api.oauth.OAuthService;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
@@ -14,10 +12,8 @@ import com.sun.jersey.spi.container.ContainerRequestFilter;
  * 
  * @author adamd
  */
-@Singleton
 public class OAuthFilter implements ContainerRequestFilter {
 
-	@Inject
 	OAuthService oauthService;
 
 	@Override
@@ -32,5 +28,10 @@ public class OAuthFilter implements ContainerRequestFilter {
 			throw new UnauthorizedRequestException( e.getMessage() );
 		}
 		return request;
+	}
+
+	public void setOauthService( OAuthService oauthService ) {
+
+		this.oauthService = oauthService;
 	}
 }

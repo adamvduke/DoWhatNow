@@ -1,3 +1,33 @@
-<!-- Generated from app.yaml. Do not edit. -->
 <web-app version='2.5' xmlns='http://java.sun.com/xml/ns/javaee'>
+	<filter>
+		<filter-name>JerseySpringServlet</filter-name>
+		<filter-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet
+		</filter-class>
+		<init-param>
+			<param-name>com.sun.jersey.config.property.resourceConfigClass</param-name>
+			<param-value>com.adamvduke.dowhatnow.config.jersey.JerseyResourceConfig</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>JerseySpringServlet</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<security-constraint>
+		<web-resource-collection>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<user-data-constraint>
+			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/classes/application-context.xml</param-value>
+	</context-param>
 </web-app>

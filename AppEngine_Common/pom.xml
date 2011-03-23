@@ -9,7 +9,7 @@
 
 	<name>AppEngine_Common</name>
 	<url>http://maven.apache.org</url>
-
+	
 	<properties>
 
 		<!-- This is just for "eclipse:eclipse" goal to always attempt downloading 
@@ -77,29 +77,13 @@
 			<groupId>javax.jdo</groupId>
 			<artifactId>jdo2-api</artifactId>
 			<version>2.3-eb</version>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>1.6</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.google.inject</groupId>
-			<artifactId>guice</artifactId>
-			<version>2.0</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.google.inject.extensions</groupId>
-			<artifactId>guice-servlet</artifactId>
-			<version>2.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -111,11 +95,27 @@
 			<scope>compile</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>com.adamvduke</groupId>
+			<artifactId>jersey.ext</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+
 		<!-- Test scope -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.8</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.8.5</version>
+			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
 

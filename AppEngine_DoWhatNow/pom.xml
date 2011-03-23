@@ -52,7 +52,7 @@
 			</releases>
 		</repository>
 	</repositories>
-	
+
 	<dependencies>
 
 		<!-- Google App Engine meta-package -->
@@ -87,6 +87,7 @@
 			<groupId>javax.jdo</groupId>
 			<artifactId>jdo2-api</artifactId>
 			<version>2.3-eb</version>
+			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
 					<groupId>javax.transaction</groupId>
@@ -97,16 +98,37 @@
 
 		<dependency>
 			<groupId>com.sun.jersey.contribs</groupId>
-			<artifactId>jersey-guice</artifactId>
+			<artifactId>jersey-spring</artifactId>
 			<version>1.5</version>
+			<type>jar</type>
 		</dependency>
 
 		<dependency>
-			<groupId>com.sun.grizzly</groupId>
-			<artifactId>grizzly-servlet-webserver</artifactId>
-			<version>1.9.18-i</version>
+			<groupId>org.codehaus.spring-security-oauth</groupId>
+			<artifactId>spring-security-oauth</artifactId>
+			<version>3.19</version>
+			<type>jar</type>
+			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-beans</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-core</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-context</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-aop</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-
+		
 		<!-- Test scope -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -144,7 +166,7 @@
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.adamvduke</groupId>
 			<artifactId>appengine.common</artifactId>
@@ -152,7 +174,14 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>com.adamvduke</groupId>
+			<artifactId>spring.ext</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -225,12 +254,52 @@
 				</configuration>
 			</plugin>
 
-			<!-- The actual maven-gae-plugin. Type "mvn gae:run" to run project, "mvn 
-				gae:deploy" to upload to GAE. -->
+			<plugin>
+				<!-- skip unit test run, tests to be executed during integration-test -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+				<executions>
+					<execution>
+						<id>surefire-it</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<skip>${skipTests}</skip>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<groupId>net.kindleit</groupId>
 				<artifactId>maven-gae-plugin</artifactId>
 				<version>0.8.2</version>
+				<executions>
+					<execution>
+						<id>start-gae</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>start</goal>
+						</goals>
+						<configuration>
+							<scanIntervalSeconds>0</scanIntervalSeconds>
+							<port>8888</port>
+							<daemon>true</daemon>
+						</configuration>
+					</execution>
+					<execution>
+						<id>stop-gae</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
 				<dependencies>
 					<dependency>
 						<groupId>net.kindleit</groupId>
@@ -261,37 +330,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<profiles>
-		<!-- We can configure our integration server to activate this profile and 
-			perform gae:deploy, thus uploading latest snapshot to the http://1.latest.<applicationName>.appspot.com 
-			automatically -->
-		<profile>
-			<id>integration-build</id>
-			<properties>
-				<gae.application.version>stage</gae.application.version>
-			</properties>
-		</profile>
-
-		<!-- This profile will activate automatically during release and upload 
-			application to the http://2.latest.<applicationName>.appspot.com (We might 
-			want to set the 2nd version as our applications Default version to be accessible 
-			at http://<applicationName>.appspot.com) -->
-		<profile>
-			<id>release-build</id>
-			<activation>
-				<property>
-					<name>performRelease</name>
-					<value>true</value>
-				</property>
-			</activation>
-
-			<properties>
-				<!-- During release, set application version in appengine-web.xml to 
-					2 -->
-				<gae.application.version>release</gae.application.version>
-			</properties>
-		</profile>
-	</profiles>
-
 </project>
