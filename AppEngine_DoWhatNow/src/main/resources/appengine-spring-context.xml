@@ -7,6 +7,6 @@
 	
 	<!-- Tell spring how to make a peristenceManagerFactory -->
 	<bean id="persistenceManagerFactory" class="javax.jdo.JDOHelper" factory-method="getPersistenceManagerFactory">
-		<constructor-arg value="transactions-optional"/>
+		<constructor-arg value="transactions-optional" type="java.lang.String"/>
 	</bean>
 </beans>
