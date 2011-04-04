@@ -63,6 +63,19 @@ import org.springframework.security.util.StringSplitUtils;
 import org.springframework.util.Assert;
 
 /**
+ * An extension to {@link org.springframework.security.oauth.consumer.CoreOAuthConsumerSupport} that
+ * fixes a bug in the getAuthorizationHeader method. The original logic appends all key/value pairs
+ * in the additionalParameters map to the Authorization header. From my understanding of the oauth
+ * spec, the only parameters that should be included in the Authorization header, are the parameters
+ * specific to the authorization of the request. However, in order to compute the signature for any
+ * particular request, other parameters e.g. parameters that will be passed as html form encoded
+ * parameters in the body of the request, those key/value pairs must also be included in the
+ * additionalParameters, but excluded from the Authorization header. This implementation adds a
+ * Map<String,List<String>> to allow a user to supply a list of acceptable additional parameters
+ * that can be used in the Authorization header per provider that the user wishes to send signed
+ * requests to. Additionally removes the dependency on {@link java.net.ProxySelector} and
+ * {@link java.net.Proxy} which are both restricted classes in the Google App Engine environment.
+ * 
  * @author Ryan Heaton
  */
 public class AppEngineCoreOAuthConsumerSupport implements OAuthConsumerSupport, InitializingBean {
@@ -353,10 +366,13 @@ public class AppEngineCoreOAuthConsumerSupport implements OAuthConsumerSupport, 
 			for ( Map.Entry <String, Set <CharSequence>> paramValuesEntry : oauthParams.entrySet() ) {
 				String key = paramValuesEntry.getKey();
 
-				List <String> validAdditionalOAuthParamNames = validAdditionalOAuthParamNamesMap.get( details.getId() );
+				List <String> validAdditionalOAuthParamNames = null;
+				if ( validAdditionalOAuthParamNamesMap != null ) {
+					validAdditionalOAuthParamNames = validAdditionalOAuthParamNamesMap.get( details.getId() );
+				}
 
 				// filtering out the invalid parameters from the authorization header
-				if ( !key.startsWith( "oauth_" ) && !validAdditionalOAuthParamNames.contains( key ) ) {
+				if ( !key.startsWith( "oauth_" ) && ( validAdditionalOAuthParamNames != null && !validAdditionalOAuthParamNames.contains( key ) ) ) {
 					continue;
 				}
 				Set <CharSequence> paramValues = paramValuesEntry.getValue();
