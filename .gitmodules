@@ -4,3 +4,6 @@
 [submodule "Submodules/Jersey_Ext"]
 	path = Submodules/Jersey_Ext
 	url = git@github.com:adamvduke/jersey_ext.git
+[submodule "Submodules/AppEngine_Common"]
+	path = Submodules/AppEngine_Common
+	url = git@github.com:adamvduke/AppEngine_Common.git
