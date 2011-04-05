@@ -1,3 +1,6 @@
 [submodule "Submodules/Spring_Ext"]
 	path = Submodules/Spring_Ext
 	url = git@github.com:adamvduke/spring_ext.git
+[submodule "Submodules/Jersey_Ext"]
+	path = Submodules/Jersey_Ext
+	url = git@github.com:adamvduke/jersey_ext.git
