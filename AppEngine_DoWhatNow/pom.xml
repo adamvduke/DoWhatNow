@@ -17,7 +17,7 @@
 
 		<!-- Specify AppEngine version for your project. It should match SDK version 
 			pointed to by ${gae.home} property -->
-		<gae.version>1.4.2</gae.version>
+		<gae.version>1.4.3</gae.version>
 
 		<!-- Upload to http://test.latest.<applicationName>.appspot.com by default -->
 		<gae.application.version>1</gae.application.version>
